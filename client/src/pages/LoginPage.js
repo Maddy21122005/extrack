@@ -6,7 +6,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const submitHandler = async (values) => {
     try {
-      const { data } = await api.post("/api/v1/user/login", values);
+      await api.post("/api/v1/user/login", values);
 
       message.success("Login Successful");
       navigate("/");
