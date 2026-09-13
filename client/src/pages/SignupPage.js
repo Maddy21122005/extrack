@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import { Button, Form, Input, message } from "antd";
 import api from "../api";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,12 +18,7 @@ const SignupPage = () => {
     }
   };
 
-  //prevent for login user
-  useEffect(() => {
-    if (localStorage.getItem("user")) {
-      navigate("/");
-    }
-  }, [navigate]);
+
   return (
     <>
       <div className="signup-page">

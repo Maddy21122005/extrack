@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../api";
 
@@ -7,8 +7,16 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    setloginUser(user ? JSON.parse(user) : null);
+    const getCurrentUser = async () => {
+      try {
+        const { data } = await api.get("/api/v1/user/current-user");
+        setloginUser(data.user);
+      } catch (error) {
+        setloginUser(null);
+      }
+    };
+
+    getCurrentUser();
   }, []);
 
   const logoutHandler = async () => {
@@ -17,9 +25,6 @@ const Header = () => {
         withCredentials: true, // cookie clear hone ke liye IMPORTANT
       });
 
-      // frontend cleanup
-      localStorage.removeItem("user");
-      setloginUser(null);
 
       navigate("/login");
     } catch (err) {
@@ -46,14 +51,12 @@ const Header = () => {
               Extrack
             </Link>
             <ul className="navbar-nav ms-auto align-items-center gap-3">
-              
               {loginUser && (
                 <li className="nav-item text-muted fw-semibold ">
                   <span className="text-dark">{loginUser.fullName}</span>
                 </li>
               )}
               <li className="nav-item">
-                
                 <button
                   onClick={logoutHandler}
                   className="btn btn-sm btn-outline-secondary px-3"
