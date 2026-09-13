@@ -1,6 +1,6 @@
 import  { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api";
 
 const Header = () => {
   const [loginUser, setloginUser] = useState(null);
@@ -13,7 +13,7 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
-      await axios.get("/api/v1/user/logout", {
+      await api.get("/api/v1/user/logout", {
         withCredentials: true, // cookie clear hone ke liye IMPORTANT
       });
 

@@ -1,5 +1,5 @@
 import { Modal, message } from "antd";
-import axios from "axios";
+import api from "../../api";
 import TransactionForm from "./TransactionForm";
 
 const AddorEditTransactionModal = ({
