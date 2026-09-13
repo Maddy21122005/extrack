@@ -16,7 +16,7 @@ const AddorEditTransactionModal = ({
       setLoading(true);
       if (editable) {
          console.log("EDIT ID:", editable._id);
-        await axios.put(
+        await api.put(
           `/api/v1/transaction/edit-transaction/${editable._id}`,
           values,
           {
@@ -25,7 +25,7 @@ const AddorEditTransactionModal = ({
         );
         message.success("Transaction Updated Successfuly");
       } else {
-        await axios.post("/api/v1/transaction/add-transaction", values);
+        await api.post("/api/v1/transaction/add-transaction", values);
         message.success("Transaction Added Successfuly");
       }
 
