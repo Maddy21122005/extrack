@@ -42,7 +42,8 @@ const loginHandler = async function (req, res) {
     return res
       .cookie("token", token, {
         httpOnly: true,
-        secure: false, // development mein false rakhein
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       })
       .status(200)
       .json({
@@ -57,9 +58,9 @@ const loginHandler = async function (req, res) {
 
 const logoutHandler = function (req, res) {
   res.clearCookie("token", {
-    httpOnly: true,
-    secure: false, // same as login
-    sameSite: "lax", // same as login
+     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
   console.log("cookies cleared");

@@ -19,9 +19,10 @@ const app = express();
 connectDb();
 
 //middlewares
+
 app.use(
   cors({
-    origin: "http://localhost:3000", // Frontend URL
+    origin: process.env.CLIENT_URL,
     credentials: true,
   }),
 );
