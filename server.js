@@ -4,7 +4,7 @@ dotenv.config();
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const connectDb = require("./config/connectDB");
+const connectDb = require("./config/connectDb");
 const userRouter = require("./routes/user");
 const cookieParser = require("cookie-parser");
 const {
