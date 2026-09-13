@@ -14,7 +14,6 @@ const {
 const app = express();
 
 //config dot env file
-dotenv.config();
 
 //database call
 connectDb();
