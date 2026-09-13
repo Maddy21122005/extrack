@@ -7,7 +7,7 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import Layout from "../components/Layout/Layout";
-import axios from "axios";
+import api from "../api";
 import Spinner from "../components/Layout/Spinner";
 import AddorEditTransactionModal from "../components/Layout/AddorEditTransactionModal";
 import dayjs from "dayjs";
@@ -147,7 +147,7 @@ const HomePage = () => {
         params.endDate = customRange[1].toISOString();
       }
 
-      const result = await axios.get("/api/v1/transaction/all-transaction", {
+      const result = await api.get("/api/v1/transaction/all-transaction", {
         params,
         withCredentials: true,
       });
@@ -177,7 +177,7 @@ const HomePage = () => {
       onOk: async () => {
         try {
           setLoading(true);
-          await axios.delete(
+          await api.delete(
             `/api/v1/transaction/delete-transaction/${record._id}`,
             { withCredentials: true },
           );

@@ -1,20 +1,14 @@
-import { useEffect } from "react";
 import { Button, Form, Input, message } from "antd";
-import axios from "axios";
+import api from "../api";
 import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const submitHandler = async (values) => {
     try {
-      const { data } = await axios.post("/api/v1/user/login", values);
+      const { data } = await api.post("/api/v1/user/login", values);
 
       message.success("Login Successful");
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ ...data.user, password: "" }),
-      );
-
       navigate("/");
     } catch (error) {
       message.error("Invalid Email or Password");
@@ -23,11 +17,6 @@ const LoginPage = () => {
     //prevent for login user
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("user")) {
-      navigate("/");
-    }
-  }, [navigate]);
   return (
     <>
       <div className="login-page">

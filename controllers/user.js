@@ -23,6 +23,8 @@ const signupHandler = async function (req, res) {
       message: "Signup successful",
     });
   } catch (error) {
+    console.error("SIGNUP ERROR:", error);
+
     return res.status(500).json({
       success: false,
       message: "Signup failed",
@@ -42,7 +44,8 @@ const loginHandler = async function (req, res) {
     return res
       .cookie("token", token, {
         httpOnly: true,
-        secure: false, // development mein false rakhein
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       })
       .status(200)
       .json({
@@ -58,8 +61,8 @@ const loginHandler = async function (req, res) {
 const logoutHandler = function (req, res) {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false, // same as login
-    sameSite: "lax", // same as login
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
   console.log("cookies cleared");
@@ -70,8 +73,37 @@ const logoutHandler = function (req, res) {
   });
 };
 
+const getCurrentUser = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        message: "Unauthorized",
+      });
+    }
+
+    const user = await User.findById(req.user._id).select("-password");
+
+    if (!user) {
+      return res.status(401).json({
+        message: "Unauthorized",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
 module.exports = {
   signupHandler,
   loginHandler,
   logoutHandler,
+  getCurrentUser,
 };

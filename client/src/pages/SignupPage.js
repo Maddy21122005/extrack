@@ -1,14 +1,12 @@
-import { useEffect } from "react";
-
 import { Button, Form, Input, message } from "antd";
-import axios from "axios";
+import api from "../api";
 import { Link, useNavigate } from "react-router-dom";
 
 const SignupPage = () => {
   const navigate = useNavigate();
   const submitHandler = async (values) => {
     try {
-      await axios.post("/api/v1/user/signup", values, {
+      await api.post("/api/v1/user/signup", values, {
         withCredentials: true,
       });
 
@@ -20,12 +18,7 @@ const SignupPage = () => {
     }
   };
 
-  //prevent for login user
-  useEffect(() => {
-    if (localStorage.getItem("user")) {
-      navigate("/");
-    }
-  }, [navigate]);
+
   return (
     <>
       <div className="signup-page">
